@@ -1,0 +1,125 @@
+\begin{thebibliography}{22}
+\newcommand{\enquote}[1]{``#1''}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup \urlstyle{rm}\Url}\fi
+\providecommand{\eprint}[2][]{\url{#2}}
+
+\bibitem[{Canty and Ripley(2009)}]{Canty+Ripley:2009}
+Canty A, Ripley BD (2009).
+\newblock \emph{\pkg{boot}: Bootstrap \proglang{R} (\proglang{S-PLUS}) Functions}.
+\newblock \proglang{R}~package version~1.2-35, \urlprefix\url{http://CRAN.R-project.org/package=boot}.
+
+\bibitem[{Croissant and Millo(2008)}]{Croissant+Millo:2008}
+Croissant Y, Millo G (2008).
+\newblock \enquote{Panel Data Econometrics in \proglang{R}: The \pkg{plm} Package.}
+\newblock \emph{Journal of Statistical Software}, \textbf{27}(2), 1--43.
+\newblock \urlprefix\url{http://www.jstatsoft.org/v27/i02/}.
+
+\bibitem[{Davison and Hinkley(1997)}]{Davison-Hinkley:97}
+Davison AC, Hinkley DV (1997).
+\newblock \emph{Bootstrap Methods and Their Applications}.
+\newblock Cambridge University Press, Cambridge.
+
+\bibitem[{Fox(2002)}]{Fox:2002}
+Fox J (2002).
+\newblock \emph{An \proglang{R} and \proglang{S-PLUS} Companion to Applied Regression}.
+\newblock Sage Publications, Thousand Oaks, CA.
+
+\bibitem[{Henderson and Quandt(1980)}]{Henderson-Quandt:80}
+Henderson JM, Quandt RE (1980).
+\newblock \emph{Microeconomic Theory: {A} Mathematical Approach}.
+\newblock 3rd edition. McGraw Hill, New York.
+
+\bibitem[{Hyndman(1996)}]{Hyndman:96}
+Hyndman RJ (1996).
+\newblock \enquote{Computing and Graphing Highest Density Regions.}
+\newblock \emph{The American Statistician}, \textbf{50}, 120--126.
+
+\bibitem[{Hyndman(2008)}]{hdrcde}
+Hyndman RJ (2008).
+\newblock \emph{\pkg{hdrcde}: Highest Density Regions and Conditional Density Estimation}.
+\newblock \proglang{R}~package version~2.09, \urlprefix\url{http://CRAN.R-project.org/package=hdrcde}.
+
+\bibitem[{Hyndman and Fan(1996)}]{Hyndman+Fan:1996}
+Hyndman RJ, Fan Y (1996).
+\newblock \enquote{Sample Quantiles in Statistical Packages.}
+\newblock \emph{The American Statistician}, \textbf{50}, 361--365.
+
+\bibitem[{Khintchine(1934)}]{Khintchine:34}
+Khintchine AI (1934).
+\newblock \enquote{Korrelationstheorie der station{\"a}ren stochastischen Prozesse.}
+\newblock \emph{Mathematische Annalen}, \textbf{109}, 604--615.
+
+\bibitem[{Kolmogorov(1931)}]{Kolmogorov:31}
+Kolmogorov AN (1931).
+\newblock \enquote{{\"U}ber die analytischen Methoden in der Wahrscheinlichkeitsrechnung.}
+\newblock \emph{Mathematische Annalen}, \textbf{104}, 415--458.
+
+\bibitem[{Lahiri(2003)}]{Lahiri:03}
+Lahiri SN (2003).
+\newblock \emph{Resampling Methods for Dependent Data}.
+\newblock Springer-Verlag, New York.
+
+\bibitem[{Murray(2006)}]{Murray:06}
+Murray MP (2006).
+\newblock \emph{Econometrics: A Modern Introduction}.
+\newblock Addison-Wesley, New York.
+
+\bibitem[{{\proglang{R} Development Core Team}(2008)}]{Rproject}
+{\proglang{R} Development Core Team} (2008).
+\newblock \emph{\proglang{R}: {A} Language and Environment for Statistical Computing}.
+\newblock \proglang{R} Foundation for Statistical Computing, Vienna, Austria.
+\newblock {ISBN} 3-900051-07-0, \urlprefix\url{http://www.R-project.org/}.
+
+\bibitem[{Singh(1981)}]{Singh:81}
+Singh K (1981).
+\newblock \enquote{On the Asymptotic Accuracy of {E}fron's Bootstrap.}
+\newblock \emph{The Annals of Statistics}, \textbf{9}, 1187--1195.
+
+\bibitem[{Vinod(2002)}]{Vinod:02}
+Vinod HD (2002).
+\newblock \enquote{Econometric Applications of Generalized Estimating Equations for Panel Data and Extensions to Inference.}
+\newblock In A~Ullah, ATK Wan, A~Chaturvedi (eds.), \emph{Handbook of Applied Econometrics}, chapter~26, pp. 553--574. Marcel Dekker, New York.
+
+\bibitem[{Vinod(2004)}]{Vinod:04}
+Vinod HD (2004).
+\newblock \enquote{Ranking Mutual Funds Using Unconventional Utility Theory and Stochastic Dominance.}
+\newblock \emph{Journal of Empirical Finance}, \textbf{11}(3), 353--377.
+
+\bibitem[{Vinod(2006)}]{Vinod:06}
+Vinod HD (2006).
+\newblock \enquote{Maximum Entropy Ensembles for Time Series Inference in Economics.}
+\newblock \emph{Journal of Asian Economics}, \textbf{17}(6), 955--978.
+
+\bibitem[{Vinod(2008)}]{Vinod:08}
+Vinod HD (2008).
+\newblock \emph{Hands-On Intermediate Econometrics Using \proglang{R}: Templates for Extending Dozens of Practical Examples}.
+\newblock World Scientific, New Jersey.
+
+\bibitem[{Vinod and {L\'opez-de-Lacalle}(2009)}]{Vinod+Lopez-de-Lacalle:2009}
+Vinod HD, {L\'opez-de-Lacalle} J (2009).
+\newblock \enquote{Maximum Entropy Bootstrap for Time Series: The \pkg{meboot} \proglang{R} Package.}
+\newblock \emph{Journal of Statistical Software}, \textbf{29}(5), 1--19.
+\newblock \doi{10.18637/jss.v029.i05}.
+
+\bibitem[{Wiener(1930)}]{Wiener:30}
+Wiener N (1930).
+\newblock \enquote{Generalized Harmonic Analysis.}
+\newblock \emph{Acta Mathematica}, \textbf{55}, 117--258.
+
+\bibitem[{Zeileis(2008)}]{dynlm}
+Zeileis A (2008).
+\newblock \emph{\pkg{dynlm}: Dynamic Linear Regression}.
+\newblock \proglang{R}~package version~0.2-0, \urlprefix\url{http://CRAN.R-project.org/package=dynlm}.
+
+\bibitem[{Zeileis and Hothorn(2002)}]{Zeileis+Hothorn:2002}
+Zeileis A, Hothorn T (2002).
+\newblock \enquote{Diagnostic Checking in Regression Relationships.}
+\newblock \emph{\proglang{R} News}, \textbf{2}(3), 7--10.
+\newblock \urlprefix\url{http://CRAN.R-project.org/doc/Rnews/}.
+
+\end{thebibliography}
