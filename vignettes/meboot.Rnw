@@ -33,14 +33,12 @@
   Department of Economics, Institute of Ethics and Economic Policy\\
   Bronx, NY 10458, United States of America\\
   E-mail: \email{Vinod@fordham.edu}\\
-  URL: \url{http://www.fordham.edu/economics/vinod/}\\
 
   Javier L\'opez-de-Lacalle\\
   Universidad del Pa\'is Vasco\\
   Facultad de Ciencias Econ\'omicas y Empresariales\\
   48015 Bilbao, Spain\\
   E-mail: \email{javlacalle@yahoo.es}\\
-  URL: \url{http://www.bl.ehu.es/~jedlobej/}
 }
 
 %% need no \usepackage{Sweave}
@@ -70,7 +68,7 @@ This paper illustrates the use of the \pkg{meboot} \proglang{R} package for \pro
 The package \pkg{meboot} implements the maximum entropy bootstrap algorithm for
 time series described in \citet{Vinod:04, Vinod:06}. The package can be obtained
 from the  Comprehensive \proglang{R} Archive Network at
-\url{http://CRAN.R-project.org/package=meboot}.
+\url{https://CRAN.R-project.org/package=meboot}.
 
 In  the traditional theory, an ensemble $\Omega$
 represents the population from which the observed time series is drawn. The maximum
