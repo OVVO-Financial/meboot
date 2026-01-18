@@ -14,5 +14,4 @@ importFrom("utils", "head", "tail")
 
 import("dynlm")
 import("nlme")
-import("tdigest")
 import("hdrcde")

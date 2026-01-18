@@ -19,13 +19,11 @@ mebootSpear <- function(x,
     return(res)
   }
 
-
   if(is.null(setSpearman)) setSpearman <- -99
 
   trim <- list(trim=trim, xmin=xmin, xmax=xmax)
 
   trimval <- if (is.null(trim$trim)) 0.1 else trim$trim
-
 
   ptm1 <- proc.time()
 
@@ -33,21 +31,15 @@ mebootSpear <- function(x,
 
   # Sort the original data in increasing order and
   # store the ordering index vector.
-
   xx <- sort(x)
   ordxx <- order(x)
 
-
   ### Fred Viole SUGGESTION PART 1 of 2
-
-  if(setSpearman <1){
+  if(setSpearman < 1){
     if(setSpearman < -0.5) ordxx_2 <- rev(ordxx) else ordxx_2 <- order(ordxx)
   }
 
-  #ordxx <- sort.int(x, index.return=TRUE)
-
   # symmetry
-
   if (sym)
   {
     xxr <- rev(xx) #reordered values
@@ -56,15 +48,9 @@ mebootSpear <- function(x,
   }
 
   # Compute intermediate points on the sorted series.
+  z <- (xx[-1] + xx[-n]) / 2
 
-  z <- (xx[-1] + xx[-n])/2
-
-  # Compute lower limit for left tail ('xmin') and
-  # upper limit for right tail ('xmax').
-  # This is done by computing the 'trim' (e.g. 10%) trimmed mean
-  # of deviations among all consecutive observations ('dv').
-  # Thus the tails are uniform distributed.
-
+  # Compute lower limit for left tail ('xmin') and upper limit for right tail ('xmax').
   dv <- abs(diff(as.numeric(x)))
   dvtrim <- mean(dv, trim=trimval)
 
@@ -73,14 +59,16 @@ mebootSpear <- function(x,
     if (is.null(trim$xmin))
     {
       xmin <- xx[1] - dvtrim
-    } else
+    } else {
       xmin <- trim$xmin
+    }
 
     if (is.null(trim$xmax))
     {
       xmax <- xx[n] + dvtrim
-    } else
+    } else {
       xmax <- trim$xmax
+    }
 
     if (!is.null(trim$xmin) || !is.null(trim$xmax))
     {
@@ -97,9 +85,6 @@ mebootSpear <- function(x,
     xmax <- xx[n] + dvtrim
   }
 
-  # do this here so that this warnings are printed after
-  # the above warnings (if necessary)
-
   if (is.list(trim))
   {
     if (!is.null(trim$xmin) && trim$xmin > min(x))
@@ -112,54 +97,37 @@ mebootSpear <- function(x,
               "in the input series x")
   }
 
+  # Compute the mean of the maximum entropy density within each interval
+  aux <- colSums(
+    t(cbind(xx[-c(1,2)], xx[-c(1,n)], xx[-c((n-1),n)])) * c(0.25,0.5,0.25)
+  )
+  desintxb <- c(0.75*xx[1] + 0.25*xx[2], aux, 0.25*xx[n-1] + 0.75*xx[n])
 
-  # Compute the mean of the maximum entropy density within each
-  # interval in such a way that the 'mean preserving constraint'
-  # is satisfied. (Denoted as m_t in the reference paper.)
-  # The first and last interval means have distinct formulas.
-  # See Theil and Laitinen (1980) for details.
-
-  aux <- colSums( t(cbind(xx[-c(1,2)], xx[-c(1,n)], xx[-c((n-1),n)]))*c(0.25,0.5,0.25) )
-  desintxb <- c(0.75*xx[1]+0.25*xx[2], aux, 0.25*xx[n-1]+0.75*xx[n])
-
-  # Generate random numbers from the [0,1] uniform interval and
-  # compute sample quantiles at those points.
-
-  # Generate random numbers from the [0,1] uniform interval.
-
+  # Generate random numbers from the [0,1] uniform interval and compute sample quantiles at those points.
+  # NOTE: removed tdigest; use pre-sorted xx inside meboot.part.spear (type = 7 interior).
   ensemble <- matrix(x, nrow=n, ncol=reps)
   ensemble <- apply(ensemble, 2, meboot.part.spear,
-                    n, z, xmin, xmax, desintxb, reachbnd)
+                    n, xx, z, xmin, xmax, desintxb, reachbnd)
 
   # So far the object 'ensemble' contains the quantiles.
   # Now give them time series dependence and heterogeneity.
-
   qseq <- apply(ensemble, 2, sort)
 
-
-  # 'qseq' has monotonic series, the correct series is obtained
-  # after applying the order according to 'ordxx' defined above.
-
+  # 'qseq' has monotonic series, the correct series is obtained after applying the order according to 'ordxx'.
   ensemble[ordxx,] <- qseq
 
-
   ### Pilot Spearman
-  if(setSpearman==-99){
+  if(setSpearman == -99){
     y <- mebootSpear(x, reps = 30, setSpearman = 1)$ensemble
     pilot <- cbind(x,y)
-    setSpearman <-  fivenum(apply(pilot, 2, function(z) (cor(pilot[,1],z)))[-1])[2]
+    setSpearman <- fivenum(apply(pilot, 2, function(z) (cor(pilot[,1], z)))[-1])[2]
   }
 
-
-
-  ### Fred Viole SUGGESTION  PART 2 of 2
+  ### Fred Viole SUGGESTION PART 2 of 2
   ### Average two ordxx ensemble matrices
-
-  if(setSpearman<1){
-    matrix2 = matrix(, nrow=length(x), ncol = reps)
-    matrix2[ordxx_2,] = qseq
-
-    # Intial search
+  if(setSpearman < 1){
+    matrix2 <- matrix(, nrow=length(x), ncol = reps)
+    matrix2[ordxx_2,] <- qseq
 
     e <- c(ensemble)
     m <- c(matrix2)
@@ -172,26 +140,22 @@ mebootSpear <- function(x,
       ifelse(d,
              (abs(cor((a*m + b*e)/(a + b), e, method = "spearman") - setSpearman) +
                 abs(mean((a*m + b*e))/mean(e) - 1) +
-                abs( cor((a*m + b*e)/(a + b), 1:l) - cor(e, 1:l))
+                abs(cor((a*m + b*e)/(a + b), 1:l) - cor(e, 1:l))
              ),
              abs(cor((a*m + b*e)/(a + b), e, method = "spearman") - setSpearman) +
                abs(mean((a*m + b*e))/mean(e) - 1)
       )
-
     }
 
     res <- optim(c(.01,.01), func, control=list(abstol = .01))
 
-    ensemble <- (res$par[1]*matrix2 +
-                   res$par[2]*ensemble) / (sum(abs(res$par)))
+    ensemble <- (res$par[1]*matrix2 + res$par[2]*ensemble) / (sum(abs(res$par)))
 
     if(identical(ordxx_2, ordxx)){
-      if(reps>1) ensemble <- t(apply(ensemble, 1,
-                                     function(x) sample(x, size = reps, replace = TRUE)))
+      if(reps > 1) ensemble <- t(apply(ensemble, 1,
+                                       function(x) sample(x, size = reps, replace = TRUE)))
     }
-
   }
-
 
   if(expand.sd)
     ensemble <- expand.sd(x=x, ensemble=ensemble, ...)
@@ -200,10 +164,9 @@ mebootSpear <- function(x,
     ensemble <- force.clt(x=x, ensemble=ensemble)
 
   # scale adjustment
-
   if (scl.adjustment)
   {
-    zz <- c(xmin,z,xmax) #extended list of z values
+    zz <- c(xmin, z, xmax) #extended list of z values
     v <- diff(zz^2) / 12
     xb <- mean(x)
     s1 <- sum((desintxb - xb)^2)
@@ -216,9 +179,9 @@ mebootSpear <- function(x,
     kappa <- out - 1
 
     ensemble <- ensemble + kappa * (ensemble - xb)
-  } else
+  } else {
     kappa <- NULL
-
+  }
 
   # Force min / max values
   if(!is.null(trim[[2]])) ensemble <- apply(ensemble, 2, function(x) pmax(trim[[2]], x))
@@ -226,14 +189,14 @@ mebootSpear <- function(x,
 
   if(is.ts(x)){
     ensemble <- ts(ensemble, frequency=frequency(x), start=start(x))
-    if(reps>1) dimnames(ensemble)[[2]] <- paste("Series", 1:reps)
+    if(reps > 1) dimnames(ensemble)[[2]] <- paste("Series", 1:reps)
   } else {
-    if(reps>1) dimnames(ensemble)[[2]] <- paste("Replicate", 1:reps)
+    if(reps > 1) dimnames(ensemble)[[2]] <- paste("Replicate", 1:reps)
   }
 
-
   # Computation time
-  ptm2 <- proc.time(); elapsr <- meboot::elapsedtime(ptm1, ptm2)
+  ptm2 <- proc.time()
+  elapsr <- meboot::elapsedtime(ptm1, ptm2)
   if(elaps)
     cat("\n  Elapsed time:", elapsr$elaps,
         paste(elapsr$units, ".", sep=""), "\n")
@@ -249,17 +212,30 @@ mebootSpear <- function(x,
 ##################################################################
 
 
-meboot.part.spear <- function(x, n, z, xmin, xmax, desintxb, reachbnd)
+# NOTE: signature changed to accept pre-sorted xx and uses type = 7 interior quantiles.
+meboot.part.spear <- function(x, n, xx, z, xmin, xmax, desintxb, reachbnd)
 {
   # Generate random numbers from the [0,1] uniform interval
   p <- runif(n, min=0, max=1)
 
-  # Assign quantiles of x from p
-  td <- tdigest::tdigest(x, compression = max(100, log(n,10)*100))
+  # Assign interior quantiles of x from p without tdigest:
+  # matches stats::quantile(type = 7) using linear interpolation on sorted xx
+  m <- length(xx)
 
-  q <- tryCatch(tdigest::tquantile(td, p) ,
-                error = quantile(x, p))
+  if (m == 0L) {
+    q <- rep(NA_real_, n)
+  } else if (m == 1L) {
+    q <- rep(xx[1], n)
+  } else {
+    h <- 1 + (m - 1) * p
+    j <- floor(h)
+    g <- h - j
 
+    j[j < 1L] <- 1L
+    j[j > (m - 1L)] <- (m - 1L)
+
+    q <- (1 - g) * xx[j] + g * xx[j + 1L]
+  }
 
   ref1 <- which(p <= (1/n))
   if(length(ref1) > 0){
@@ -276,12 +252,9 @@ meboot.part.spear <- function(x, n, z, xmin, xmax, desintxb, reachbnd)
   if(length(ref5) > 0){
     # Right tail proportion p[i]
     qq <- approx(c((n-1)/n,1), c(z[n-1],xmax), p[ref5])$y
-    q[ref5] <- qq   # this implicitly shifts xmax for algorithm
+    q[ref5] <- qq
     if(!reachbnd)  q[ref5] <- qq + desintxb[n]-0.5*(z[n-1]+xmax)
-    # such that the algorithm gives xmax when p[i]=1
-    # this is the meaning of reaching the bounds xmax and xmin
   }
 
   q
-
 }
